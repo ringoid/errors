@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Errors Service Stack
+
+Parameters:
+  Env:
+    Type: String
+    Default: stage
+    AllowedValues:
+      - stage
+      - prod
+    Description: Env name
+
+Globals:
+    Function:
+        Timeout: 300
+        MemorySize: 512
+        Runtime: go1.x
+        Environment:
+          Variables:
+            ENV: !Ref Env
+        Tags:
+          Company: Ringoid
+          Service: errors
+          Environment: !Ref Env
+
+Resources:
+
+  TimeoutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join [ "-", [ !Ref Env, timeout] ]
+      Handler: timeout
+      CodeUri: ./timeout.zip
+      Description: Timeout function
+      Events:
+        TimeoutEvent:
+          Type: Api
+          Properties:
+            Path: /timeout
+            Method: post
+
+  InvalidTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join [ "-", [ !Ref Env, invalidtoken] ]
+      Handler: invalidtoken
+      CodeUri: ./invalidtoken.zip
+      Description: InvalidToken function
+      Events:
+        TimeoutEvent:
+          Type: Api
+          Properties:
+            Path: /invalidtoken
+            Method: post
+
+  NonOkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join [ "-", [ !Ref Env, nonok] ]
+      Handler: nonok
+      CodeUri: ./nonok.zip
+      Description: Nonok function
+      Events:
+        TimeoutEvent:
+          Type: Api
+          Properties:
+            Path: /nonok
+            Method: post
