@@ -67,3 +67,17 @@ Resources:
           Properties:
             Path: /nonok
             Method: post
+
+  OldVersionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join [ "-", [ !Ref Env, old_version] ]
+      Handler: old
+      CodeUri: ./old.zip
+      Description: Old function
+      Events:
+        TimeoutEvent:
+          Type: Api
+          Properties:
+            Path: /old_version
+            Method: post

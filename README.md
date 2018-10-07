@@ -40,3 +40,20 @@ Headers:
 * Content-Type : application/json
 
 Returns 503
+
+### TooOldAppVersionClientError url
+
+* url ``https://{API ENDPOINT}/Prod/old_version``
+
+POST request
+
+Headers:
+
+* Content-Type : application/json
+
+Possible errorCodes:
+
+* TooOldAppVersionClientError
+
+
+old_version

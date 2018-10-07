@@ -7,6 +7,8 @@ build:
 	GOOS=linux go build lambda-invalidtoken/invalidtoken.go
 	@echo '--- Building nonok function ---'
 	GOOS=linux go build lambda-nonok/nonok.go
+	@echo '--- Building old function ---'
+	GOOS=linux go build lambda-toooldversion/old.go
 
 zip_lambda: build
 	@echo '--- Zip timeoutfunction ---'
@@ -15,6 +17,8 @@ zip_lambda: build
 	zip invalidtoken.zip ./invalidtoken
 	@echo '--- Zip nonok ---'
 	zip nonok.zip ./nonok
+	@echo '--- Zip old ---'
+	zip old.zip ./old
 
 stage-deploy: zip_lambda
 	@echo '--- Build lambda stage ---'
@@ -31,3 +35,5 @@ clean:
 	rm -rf invalidtoken.zip
 	rm -rf nonok
 	rm -rf nonok.zip
+	rm -rf old.zip
+	rm -rf old
