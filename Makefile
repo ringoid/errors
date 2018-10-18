@@ -9,6 +9,8 @@ build:
 	GOOS=linux go build lambda-nonok/nonok.go
 	@echo '--- Building old function ---'
 	GOOS=linux go build lambda-toooldversion/old.go
+	@echo '--- Building internalerror function ---'
+	GOOS=linux go build lambda-internal-error/internalerror.go
 
 zip_lambda: build
 	@echo '--- Zip timeoutfunction ---'
@@ -19,6 +21,8 @@ zip_lambda: build
 	zip nonok.zip ./nonok
 	@echo '--- Zip old ---'
 	zip old.zip ./old
+	@echo '--- Zip internalerror ---'
+	zip internalerror.zip ./internalerror
 
 stage-deploy: zip_lambda
 	@echo '--- Build lambda stage ---'
@@ -37,3 +41,5 @@ clean:
 	rm -rf nonok.zip
 	rm -rf old.zip
 	rm -rf old
+	rm -rf internalerror
+	rm -rf internalerror.zip

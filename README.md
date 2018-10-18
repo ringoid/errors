@@ -55,5 +55,16 @@ Possible errorCodes:
 
 * TooOldAppVersionClientError
 
+### InternalServerError url
 
-old_version
+* url ``https://{API ENDPOINT}/Prod/internalerror``
+
+POST request
+
+Headers:
+
+* Content-Type : application/json
+
+Possible errorCodes:
+
+* InternalServerError

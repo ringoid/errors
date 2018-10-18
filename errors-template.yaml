@@ -81,3 +81,17 @@ Resources:
           Properties:
             Path: /old_version
             Method: post
+
+  InternalServerErrorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join [ "-", [ !Ref Env, internalerror] ]
+      Handler: internalerror
+      CodeUri: ./internalerror.zip
+      Description: InternalServerError function
+      Events:
+        TimeoutEvent:
+          Type: Api
+          Properties:
+            Path: /internalerror
+            Method: post
