@@ -25,11 +25,11 @@ zip_lambda: build
 	zip internalerror.zip ./internalerror
 
 stage-deploy: zip_lambda
-	@echo '--- Build lambda stage ---'
+	@echo '--- Build lambda  ---'
 	@echo 'Package template'
 	sam package --template-file errors-template.yaml --s3-bucket ringoid-cloudformation-template --output-template-file errors-template-packaged.yaml
-	@echo 'Deploy errors-image-stack'
-	sam deploy --template-file errors-template-packaged.yaml --s3-bucket ringoid-cloudformation-template --stack-name errors-image-stack --capabilities CAPABILITY_IAM --parameter-overrides Env=stage --no-fail-on-empty-changeset
+	@echo 'Deploy errors-stack'
+	sam deploy --template-file errors-template-packaged.yaml --s3-bucket ringoid-cloudformation-template --stack-name errors-stack --capabilities CAPABILITY_IAM --parameter-overrides Env=stage --no-fail-on-empty-changeset
 
 clean:
 	@echo '--- Delete old artifacts ---'
