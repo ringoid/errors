@@ -26,6 +26,23 @@ Globals:
 
 Resources:
 
+  ErrorsApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Ref AWS::StackName
+      StageName: Prod
+
+  APIBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    DependsOn: ErrorsApiProdStage
+    Properties:
+      BasePath: errors
+      DomainName:
+        Fn::ImportValue:
+          !Join [ "-", [ !Ref Env, APIDomainNameExport] ]
+      RestApiId: !Ref ErrorsApi
+      Stage: Prod
+
   TimeoutFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -39,6 +56,7 @@ Resources:
           Properties:
             Path: /timeout
             Method: post
+            RestApiId: !Ref ErrorsApi
 
   InvalidTokenFunction:
     Type: AWS::Serverless::Function
@@ -53,6 +71,7 @@ Resources:
           Properties:
             Path: /invalidtoken
             Method: post
+            RestApiId: !Ref ErrorsApi
 
   NonOkFunction:
     Type: AWS::Serverless::Function
@@ -67,6 +86,7 @@ Resources:
           Properties:
             Path: /nonok
             Method: post
+            RestApiId: !Ref ErrorsApi
 
   OldVersionFunction:
     Type: AWS::Serverless::Function
@@ -81,6 +101,7 @@ Resources:
           Properties:
             Path: /old_version
             Method: post
+            RestApiId: !Ref ErrorsApi
 
   InternalServerErrorFunction:
     Type: AWS::Serverless::Function
@@ -95,3 +116,4 @@ Resources:
           Properties:
             Path: /internalerror
             Method: post
+            RestApiId: !Ref ErrorsApi
